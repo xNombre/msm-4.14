@@ -118,6 +118,5 @@ source "drivers/staging/vboxvideo/Kconfig"
 
 source "drivers/staging/pi433/Kconfig"
 
-source "drivers/staging/erofs/Kconfig"
 
 endif # STAGING
