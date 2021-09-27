@@ -14,6 +14,27 @@
 #if !defined(_CAM_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
 #define _CAM_TRACE_H
 
+#include <media/cam_req_mgr.h>
+#include "cam_req_mgr_core.h"
+#include "cam_req_mgr_interface.h"
+#include "cam_context.h"
+
+#define trace_cam_context_state(...) {}
+#define trace_cam_isp_activated_irq(...) {}
+#define trace_cam_icp_fw_dbg(...) {}
+#define trace_cam_buf_done(...) {}
+#define trace_cam_apply_req(...) {}
+#define trace_cam_flush_req(...) {}
+#define trace_cam_req_mgr_connect_device(...) {}
+#define trace_cam_req_mgr_apply_request(...) {}
+#define trace_cam_req_mgr_add_req(...) {}
+#define trace_cam_submit_to_hw(...) {}
+#define trace_cam_irq_activated(...) {}
+#define trace_cam_irq_handled(...) {}
+#define trace_cam_isp_irq_delay_detect(...) {}
+#define trace_cam_cdm_cb(...) {}
+
+#if 0
 #undef TRACE_SYSTEM
 #define TRACE_SYSTEM camera
 #undef TRACE_INCLUDE_PATH
@@ -22,10 +43,6 @@
 #define TRACE_INCLUDE_FILE cam_trace
 
 #include <linux/tracepoint.h>
-#include <media/cam_req_mgr.h>
-#include "cam_req_mgr_core.h"
-#include "cam_req_mgr_interface.h"
-#include "cam_context.h"
 
 TRACE_EVENT(cam_context_state,
 	TP_PROTO(const char *name, struct cam_context *ctx),
@@ -331,7 +348,7 @@ TRACE_EVENT(cam_cdm_cb,
 	)
 );
 
-#endif /* _CAM_TRACE_H */
-
 /* This part must be outside protection */
 #include <trace/define_trace.h>
+#endif
+#endif /* _CAM_TRACE_H */

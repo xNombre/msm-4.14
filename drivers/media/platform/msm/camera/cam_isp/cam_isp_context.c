@@ -524,43 +524,6 @@ static const char *__cam_isp_resource_handle_id_to_type(
 	}
 }
 
-static uint64_t __cam_isp_ctx_get_event_ts(uint32_t evt_id, void *evt_data)
-{
-	uint64_t ts = 0;
-
-	if (!evt_data)
-		return 0;
-
-	switch (evt_id) {
-	case CAM_ISP_HW_EVENT_ERROR:
-		ts = ((struct cam_isp_hw_error_event_data *)evt_data)->
-			timestamp;
-		break;
-	case CAM_ISP_HW_EVENT_SOF:
-		ts = ((struct cam_isp_hw_sof_event_data *)evt_data)->
-			timestamp;
-		break;
-	case CAM_ISP_HW_EVENT_REG_UPDATE:
-		ts = ((struct cam_isp_hw_reg_update_event_data *)evt_data)->
-			timestamp;
-		break;
-	case CAM_ISP_HW_EVENT_EPOCH:
-		ts = ((struct cam_isp_hw_epoch_event_data *)evt_data)->
-			timestamp;
-		break;
-	case CAM_ISP_HW_EVENT_EOF:
-		ts = ((struct cam_isp_hw_eof_event_data *)evt_data)->
-			timestamp;
-		break;
-	case CAM_ISP_HW_EVENT_DONE:
-		break;
-	default:
-		CAM_DBG(CAM_ISP, "Invalid Event Type %d", evt_id);
-	}
-
-	return ts;
-}
-
 static void __cam_isp_ctx_handle_buf_done_fail_log(
 	struct cam_isp_ctx_req *req_isp)
 {
