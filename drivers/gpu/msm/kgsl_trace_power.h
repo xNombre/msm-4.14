@@ -11,6 +11,8 @@
  *
  */
 
+#define trace_gpu_frequency(...) {}
+#if 0
 #if !defined(_KGSL_TRACE_POWER_H) || defined(TRACE_HEADER_MULTI_READ)
 #define _KGSL_TRACE_POWER_H
 
@@ -47,3 +49,4 @@ TRACE_EVENT(gpu_frequency,
 
 /* This part must be outside protection */
 #include <trace/define_trace.h>
+#endif
