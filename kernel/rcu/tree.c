@@ -174,6 +174,12 @@ EXPORT_SYMBOL_GPL(rcu_get_gp_kthreads_prio);
  */
 #define PER_RCU_NODE_PERIOD 3	/* Number of grace periods between delays. */
 
+#ifdef CONFIG_LOCKDEP
+#error lockdep_assert_irqs_disabled() is not backported!
+#else
+void lockdep_assert_irqs_disabled(void) {}
+#endif
+
 /*
  * Compute the mask of online CPUs for the specified rcu_node structure.
  * This will not be stable unless the rcu_node structure's ->lock is
