@@ -166,4 +166,8 @@ config WCD_DSP_GLINK
 	tristate "WCD_DSP_GLINK"
 config WSA_MACRO
 	tristate "WSA_MACRO"
+config SND_SMARTPA_AW882XX
+    tristate "SND_SMARTPA_AW882XX"
+config SND_SOC_TFA9873
+    tristate "SND_SOC_TFA9873"
 endmenu
