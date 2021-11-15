@@ -674,7 +674,7 @@ unlock:
 
 	if (rc >= 0)
 		val->intval = smb1390_get_isns(temp);
-	pr_err("smb1390 isns value, isns = %d\n", val->intval);
+	pr_debug("smb1390 isns value, isns = %d\n", val->intval);
 
 	return rc;
 }
@@ -949,7 +949,7 @@ static int smb1390_ilim_vote_cb(struct votable *votable, void *data,
 
 	/* ILIM should always have at least one active vote */
 	if (!client) {
-		pr_err("Client missing\n");
+		pr_debug("Client missing\n");
 		return -EINVAL;
 	}
 
@@ -1082,7 +1082,7 @@ static void smb1390_configure_ilim(struct smb1390 *chip, int mode)
 
 		rc = power_supply_get_property(chip->usb_psy,
 				POWER_SUPPLY_PROP_INPUT_CURRENT_SETTLED, &pval);
-		pr_err("pval.val: %d\n", pval.intval);
+		pr_debug("pval.val: %d\n", pval.intval);
 		if (rc < 0) {
 			pr_err("Couldn't get usb aicl rc=%d\n", rc);
 		} else {

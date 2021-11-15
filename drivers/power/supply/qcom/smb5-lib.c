@@ -745,7 +745,7 @@ int smblib_set_charge_param(struct smb_charger *chg,
 		power_supply_get_property(chg->cp_psy, POWER_SUPPLY_PROP_CP_VBAT_CALIBRATE, &val);
 		if (val.intval >= -20000 && val.intval <= 20000) {
 			val_u += val.intval;
-			pr_info("fv calibrate = %d, fv = %d\n", val.intval, val_u);
+			pr_debug("fv calibrate = %d, fv = %d\n", val.intval, val_u);
 		}
 	}
 
