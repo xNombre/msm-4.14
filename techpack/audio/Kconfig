@@ -38,6 +38,8 @@ config MSM_QDSP6V2_CODECS
 	tristate "MSM_QDSP6V2_CODECS"
 config MSM_ULTRASOUND
 	tristate "MSM_ULTRASOUND"
+config ELLIPTIC
+    tristate "ELLIPTIC"
 config PINCTRL_LPI
 	tristate "PINCTRL_LPI"
 config PINCTRL_WCD
