@@ -157,12 +157,12 @@ static int qg_process_tcss_soc(struct qpnp_qg *chip, int sys_soc)
 	}
 
 	rc = power_supply_get_property(chip->batt_psy, POWER_SUPPLY_PROP_STATUS, &prop);
-	pr_err("charge_status = %d\n", prop.intval);
+	pr_debug("charge_status = %d\n", prop.intval);
 	if (rc < 0) {
 		pr_err("failed to get charge_status, rc = %d\n", rc);
 		goto exit_soc_scale;
 	} else if (prop.intval != POWER_SUPPLY_STATUS_CHARGING) {
-		pr_err("charge_status is not charging, rc = %d\n", rc);
+		pr_debug("charge_status is not charging, rc = %d\n", rc);
 		goto exit_soc_scale;
 	}
 
