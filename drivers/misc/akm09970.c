@@ -114,7 +114,7 @@ static int akm09970_set_reg_bits(struct i2c_client *client,
 		return data;
 
 	data = (data & ~mask) | ((val << shift) & mask);
-	pr_info("reg: 0x%x, data: 0x%x", reg, data);
+	pr_debug("reg: 0x%x, data: 0x%x", reg, data);
 	return akm09970_write_byte(client, reg, data);
 }
 
@@ -193,7 +193,7 @@ static int akm09970_active(struct akm09970_soc_ctrl *c_ctrl, bool on)
 	int rc = 0;
 	uint8_t mode = 0x00;
 
-	pr_info("akm sensor %s\n", on ? "on" : "off");
+	pr_debug("akm sensor %s\n", on ? "on" : "off");
 
 	if (!atomic_read(&c_ctrl->power_enabled) && on) {
 		rc = akm09970_power_up(c_ctrl);
@@ -219,7 +219,7 @@ static int akm09970_active(struct akm09970_soc_ctrl *c_ctrl, bool on)
 			akm09970_power_down(c_ctrl);
 			return rc;
 		}
-		pr_info("reg: 0x%x, data: 0x%x", AK09970_MODE_REG, (mode | c_ctrl->measure_range));
+		pr_debug("reg: 0x%x, data: 0x%x", AK09970_MODE_REG, (mode | c_ctrl->measure_range));
 
 		enable_irq(c_ctrl->irq);
 		hrtimer_start(&c_ctrl->timer,
@@ -232,7 +232,7 @@ static int akm09970_active(struct akm09970_soc_ctrl *c_ctrl, bool on)
 		disable_irq_nosync(c_ctrl->irq);
 		cancel_work_sync(&c_ctrl->report_work);
 		c_ctrl->read_flag = false;
-		pr_err("Disable irq successfully");
+		pr_debug("Disable irq successfully");
 
 		rc = akm09970_set_mode(c_ctrl, AK09970_MODE_POWERDOWN);
 		if (rc)
@@ -240,7 +240,7 @@ static int akm09970_active(struct akm09970_soc_ctrl *c_ctrl, bool on)
 
 		akm09970_power_down(c_ctrl);
 	} else {
-		pr_info("The same power state, do nothing!");
+		pr_debug("The same power state, do nothing!");
 	}
 
 	return 0;
@@ -379,16 +379,16 @@ static long akm09970_ioctl(struct file *filp, unsigned int cmd, unsigned long ar
 
 	switch (cmd) {
 	case AKM_IOC_SET_ACTIVE:
-		pr_err("AKM_IOC_SET_ACTIVE, c_ctrl->pdata.sensor_state = %d\n", c_ctrl->pdata.sensor_state);
+		pr_debug("AKM_IOC_SET_ACTIVE, c_ctrl->pdata.sensor_state = %d\n", c_ctrl->pdata.sensor_state);
 		rc = akm09970_active(c_ctrl, c_ctrl->pdata.sensor_state);
 		break;
 	case AKM_IOC_SET_MODE:
-		pr_err("AKM_IOC_SET_MODE, c_ctrl->pdata.sensor_mode = %d\n", c_ctrl->pdata.sensor_mode);
+		pr_debug("AKM_IOC_SET_MODE, c_ctrl->pdata.sensor_mode = %d\n", c_ctrl->pdata.sensor_mode);
 		c_ctrl->measure_freq_hz = c_ctrl->pdata.sensor_mode;
 		//rc = akm09970_set_mode(pctrl, mode);
 		break;
 	case AKM_IOC_GET_SENSSMR:
-		pr_err("AKM_IOC_GET_SENSSMR, c_ctrl->measure_range = %d", c_ctrl->measure_range);
+		pr_debug("AKM_IOC_GET_SENSSMR, c_ctrl->measure_range = %d", c_ctrl->measure_range);
 		c_ctrl->pdata.sensor_smr = c_ctrl->measure_range;
 		break;
 	case AKM_IOC_GET_SENSEDATA:
