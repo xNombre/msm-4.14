@@ -40,7 +40,9 @@
 
 #define GET_SMMU_HDL(x, y) (((x) << COOKIE_SIZE) | ((y) & COOKIE_MASK))
 #define GET_SMMU_TABLE_IDX(x) (((x) >> COOKIE_SIZE) & COOKIE_MASK)
+#ifdef CONFIG_XIAOMI_IOMMU
 extern int iommu_dma_set(struct device *dev, const char *name, bool best_fit);
+#endif
 
 static int g_num_pf_handled = 4;
 module_param(g_num_pf_handled, int, 0644);
@@ -2055,6 +2057,7 @@ int cam_smmu_get_handle(char *identifier, int *handle_ptr)
 }
 EXPORT_SYMBOL(cam_smmu_get_handle);
 
+#ifdef CONFIG_XIAOMI_IOMMU
 int cam_smmu_mi_init(int handle)
 {
 	int ret = 0, idx;
@@ -2088,6 +2091,12 @@ int cam_smmu_mi_init(int handle)
 
 	return ret;
 }
+#else
+int cam_smmu_mi_init(int handle)
+{
+	return 0;
+}
+#endif
 EXPORT_SYMBOL(cam_smmu_mi_init);
 
 int cam_smmu_ops(int handle, enum cam_smmu_ops_param ops)
