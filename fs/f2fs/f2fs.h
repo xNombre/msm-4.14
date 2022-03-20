@@ -1291,6 +1291,7 @@ enum {
 	SBI_QUOTA_SKIP_FLUSH,			/* skip flushing quota in current CP */
 	SBI_QUOTA_NEED_REPAIR,			/* quota file may be corrupted */
 	SBI_IS_RESIZEFS,			/* resizefs is in process */
+	SBI_IS_FREEZING,			/* freezefs is in process */
 };
 
 enum {
@@ -1310,6 +1311,7 @@ enum {
 	GC_IDLE_AT,
 	GC_URGENT_HIGH,
 	GC_URGENT_LOW,
+	GC_URGENT_MID,
 	MAX_GC_MODE,
 };
 
@@ -2130,9 +2132,17 @@ static inline void clear_ckpt_flags(struct f2fs_sb_info *sbi, unsigned int f)
 	spin_unlock_irqrestore(&sbi->cp_lock, flags);
 }
 
-static inline void init_f2fs_rwsem(struct f2fs_rwsem *sem)
+#define init_f2fs_rwsem(sem)					\
+do {								\
+	static struct lock_class_key __key;			\
+								\
+	__init_f2fs_rwsem((sem), #sem, &__key);			\
+} while (0)
+
+static inline void __init_f2fs_rwsem(struct f2fs_rwsem *sem,
+		const char *sem_name, struct lock_class_key *key)
 {
-	init_rwsem(&sem->internal_rwsem);
+	__init_rwsem(&sem->internal_rwsem, sem_name, key);
 	init_waitqueue_head(&sem->read_waiters);
 }
 
@@ -2774,6 +2784,9 @@ static inline bool is_idle(struct f2fs_sb_info *sbi, int type)
 
 	if (is_inflight_io(sbi, type))
 		return false;
+
+	if (sbi->gc_mode == GC_URGENT_MID)
+		return true;
 
 	if (sbi->gc_mode == GC_URGENT_LOW &&
 			(type == DISCARD_TIME || type == GC_TIME))
