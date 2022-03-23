@@ -516,7 +516,7 @@ static int dsi_panel_power_off(struct dsi_panel *panel)
 	}
 
 #ifdef CONFIG_TOUCHSCREEN_TDDI_DBCLK
-	skip_disable_regulator = panel->is_tddi_flag && is_tp_doubleclick_enable;
+	skip_disable_regulator = panel->is_tddi_flag && is_tp_doubleclick_enable();
 #endif
 	if (!skip_disable_regulator) {
 		rc = dsi_pwr_enable_regulator(&panel->power_info, false);
