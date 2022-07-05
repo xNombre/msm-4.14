@@ -9,7 +9,7 @@ ccflags-$(if $(WIREGUARD_VERSION),y,) += -D'WIREGUARD_VERSION="$(WIREGUARD_VERSI
 
 wireguard-y := main.o noise.o device.o peer.o timers.o queueing.o send.o receive.o socket.o peerlookup.o allowedips.o ratelimiter.o cookie.o netlink.o
 
-include $(src)/crypto/Makefile.include
-include $(src)/compat/Makefile.include
+include $(src)/crypto/Kbuild.include
+include $(src)/compat/Kbuild.include
 
 obj-$(if $(KBUILD_EXTMOD),m,$(CONFIG_WIREGUARD)) := wireguard.o
