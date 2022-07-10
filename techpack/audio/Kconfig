@@ -1,5 +1,7 @@
 menu "Techpack audio options"
 
+config SND_SOC_AWINIC_AW882XX
+	tristate "SND_SOC_AWINIC_AW882XX"
 config SND_SOC_TAS2563
 	tristate "SND_SOC_TAS2563"
 config TAS2563_CODEC
