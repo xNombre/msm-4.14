@@ -1229,10 +1229,8 @@ bool is_empty_dir_inode(struct inode *inode)
 #ifdef CONFIG_UNICODE
 bool needs_casefold(const struct inode *dir)
 {
-	return IS_CASEFOLDED(dir) && dir->i_sb->s_encoding &&
-			(!IS_ENCRYPTED(dir) || fscrypt_has_encryption_key(dir));
+	return IS_CASEFOLDED(dir) && dir->i_sb->s_encoding;
 }
-EXPORT_SYMBOL(needs_casefold);
 
 /**
  * generic_ci_d_compare - generic d_compare implementation for casefolding filesystems
@@ -1256,7 +1254,6 @@ static int generic_ci_d_compare(const struct dentry *dentry, unsigned int len,
 
 	if (!inode || !needs_casefold(inode))
 		goto fallback;
-
 	/*
 	 * If the dentry name is stored in-line, then it may be concurrently
 	 * modified by a rename.  If this happens, the VFS will eventually retry
