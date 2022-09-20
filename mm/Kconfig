@@ -848,10 +848,6 @@ config FORCE_ALLOC_FROM_DMA_ZONE
 
 	  If unsure, say "n".
 
-config VMSTAT_INTERVAL
-	int "Default interval in seconds to update vmstat"
-	default 1
-
 # multi-gen LRU {
 config LRU_GEN
 	bool "Multi-Gen LRU"
